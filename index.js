@@ -1,4 +1,3 @@
-import { exercises } from "./exercises.js";
 import express from "express";
 import cors from "cors";
 
@@ -60,33 +59,8 @@ app.post("/generate-workout-plan", (req, res) => {
   res.json(program);
 });
 
-// Avvio server
-app.listen(3000, () => {
-  console.log("Backend attivo sulla porta 3000");
+// Porta dinamica per Render
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Backend attivo sulla porta ${PORT}`);
 });
-app.post("/generate-workout-plan", (req, res) => {
-    try {
-        const data = req.body;
-
-        // Esempio di risposta (puoi personalizzarla)
-        const workoutPlan = {
-            goal: data.goal,
-            experience: data.experience,
-            equipment: data.equipment,
-            days_per_week: data.days_per_week,
-            message: "Scheda generata con successo!",
-            plan: [
-                { day: 1, workout: "Petto + Tricipiti" },
-                { day: 2, workout: "Schiena + Bicipiti" },
-                { day: 3, workout: "Gambe + Spalle" }
-            ]
-        };
-
-        res.json(workoutPlan);
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Errore interno del server" });
-    }
-});
-
