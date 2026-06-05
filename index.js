@@ -12,6 +12,9 @@ function generateProgram(input) {
 
   return {
     user: input.name,
+    goal: input.goal,
+    level: input.level,
+    equipment: input.equipment,
     split,
     weeks: 4,
     sessions: [
@@ -52,11 +55,25 @@ function getWeeklyVolume(level, goal) {
   return base;
 }
 
-// Endpoint principale
+// Endpoint compatibile con il questionario
 app.post("/generate-workout-plan", (req, res) => {
-  const data = req.body;
-  const program = generateProgram(data);
-  res.json(program);
+  try {
+    const input = {
+      goal: req.body.goal,
+      level: req.body.experience,     // il questionario manda "experience"
+      equipment: req.body.equipment,
+      days_per_week: req.body.days_per_week,
+      preferred_split: null,
+      name: "Utente"
+    };
+
+    const program = generateProgram(input);
+    res.json(program);
+
+  } catch (err) {
+    console.error("Errore backend:", err);
+    res.status(500).json({ error: "Errore interno del server" });
+  }
 });
 
 // Porta dinamica per Render
