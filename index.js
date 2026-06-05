@@ -16,7 +16,6 @@ const exercises = [
   { name: "Lat machine avanti", muscle_group: "dorso", split: "UPPER", level: "principiante", equipment: "macchina" },
   { name: "Rematore manubrio", muscle_group: "dorso", split: "UPPER", level: "intermedio", equipment: "manubri" },
   { name: "Alzate laterali manubri", muscle_group: "spalle", split: "UPPER", level: "principiante", equipment: "manubri" },
-  { name: "Shoulder press macchina", muscle_group: "spalle", split: "UPPER", level: "principiante", equipment: "macchina" },
 
   // LOWER
   { name: "Leg press", muscle_group: "gambe", split: "LOWER", level: "principiante", equipment: "macchina" },
@@ -104,14 +103,25 @@ function generateProgram(input) {
   const sessions = split.map((sp, index) => {
     let dayExercises = filtered.filter(e => e.split === sp);
 
-    // fallback 1: usa FULL BODY
+    // fallback SOLO coerenti con lo split
     if (dayExercises.length === 0) {
-      dayExercises = filtered.filter(e => e.split === "FULL");
+      if (sp === "LOWER" || sp === "LEGS") {
+        dayExercises = filtered.filter(e => e.muscle_group === "gambe" || e.muscle_group === "posteriori");
+      }
+      if (sp === "UPPER") {
+        dayExercises = filtered.filter(e => ["petto", "dorso", "spalle", "bicipiti", "tricipiti"].includes(e.muscle_group));
+      }
+      if (sp === "PUSH") {
+        dayExercises = filtered.filter(e => ["petto", "spalle", "tricipiti"].includes(e.muscle_group));
+      }
+      if (sp === "PULL") {
+        dayExercises = filtered.filter(e => ["dorso", "bicipiti"].includes(e.muscle_group));
+      }
     }
 
-    // fallback 2: usa tutto il database
+    // fallback finale: FULL BODY
     if (dayExercises.length === 0) {
-      dayExercises = [...exercises];
+      dayExercises = filtered.filter(e => e.split === "FULL");
     }
 
     // scegli 5 esercizi base
@@ -163,7 +173,6 @@ function generateProgram(input) {
         }
       }
 
-      // massimo 6 esercizi
       chosen = chosen.slice(0, 6);
     }
 
