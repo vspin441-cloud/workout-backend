@@ -64,3 +64,29 @@ app.post("/generate-workout-plan", (req, res) => {
 app.listen(3000, () => {
   console.log("Backend attivo sulla porta 3000");
 });
+app.post("/generate-workout-plan", (req, res) => {
+    try {
+        const data = req.body;
+
+        // Esempio di risposta (puoi personalizzarla)
+        const workoutPlan = {
+            goal: data.goal,
+            experience: data.experience,
+            equipment: data.equipment,
+            days_per_week: data.days_per_week,
+            message: "Scheda generata con successo!",
+            plan: [
+                { day: 1, workout: "Petto + Tricipiti" },
+                { day: 2, workout: "Schiena + Bicipiti" },
+                { day: 3, workout: "Gambe + Spalle" }
+            ]
+        };
+
+        res.json(workoutPlan);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Errore interno del server" });
+    }
+});
+
