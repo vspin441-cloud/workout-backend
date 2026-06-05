@@ -58,6 +58,8 @@ function getWeeklyVolume(level, goal) {
 // Endpoint compatibile con il questionario
 app.post("/generate-workout-plan", (req, res) => {
   try {
+    console.log("Dati ricevuti:", req.body);
+
     const input = {
       goal: req.body.goal,
       level: req.body.experience,
