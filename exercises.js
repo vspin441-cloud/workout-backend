@@ -99,4 +99,10 @@ const exercises = [
 
   // CARDIO
   { name: "High Knees", muscle_group: "cardio", level: "principiante", equipment: "corpo_libero" },
-  { name: "Burpees Modificati", muscle_group: "cardio", level: "principiante", equipment: "corpo_libero
+  { name: "Burpees Modificati", muscle_group: "cardio", level: "principiante", equipment: "corpo_libero" },
+  { name: "Mountain Climbers Lenti", muscle_group: "cardio", level: "principiante", equipment: "corpo_libero" },
+  { name: "Salto Laterale", muscle_group: "cardio", level: "principiante", equipment: "corpo_libero" },
+  { name: "Sprint sul Posto", muscle_group: "cardio", level: "intermedio", equipment: "corpo_libero" }
+];
+
+export default 
