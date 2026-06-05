@@ -60,7 +60,24 @@ app.post("/generate-workout-plan", (req, res) => {
   try {
     const input = {
       goal: req.body.goal,
-      level: req.body.experience,     // il questionario manda "experience"
+      level: req.body.experience,
       equipment: req.body.equipment,
       days_per_week: req.body.days_per_week,
-      preferred_split
+      preferred_split: null,
+      name: req.body.name || "Utente"
+    };
+
+    const program = generateProgram(input);
+    res.json(program);
+
+  } catch (err) {
+    console.error("Errore backend:", err);
+    res.status(500).json({ error: "Errore interno del server" });
+  }
+});
+
+// Porta dinamica per Render
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Backend attivo sulla porta ${PORT}`);
+});
