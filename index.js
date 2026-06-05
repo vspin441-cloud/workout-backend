@@ -40,9 +40,27 @@ const exercises = [
 // ----------------------
 // UTILS
 // ----------------------
-function pickRandom(arr, n) {
+function safePickRandom(arr, n) {
+  if (!arr || arr.length === 0) return [];
   const shuffled = [...arr].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, Math.min(n, shuffled.length));
+}
+
+function safeDuplicate(baseArr, targetCount) {
+  const result = [...baseArr];
+
+  while (result.length < targetCount) {
+    const base = baseArr[Math.floor(Math.random() * baseArr.length)];
+    if (!base) break;
+
+    result.push({
+      name: base.name,
+      sets: 3,
+      reps: "10-15"
+    });
+  }
+
+  return result;
 }
 
 function filterExercises(input) {
@@ -93,7 +111,7 @@ function splitReadableName(split) {
 }
 
 // ----------------------
-// GENERA PROGRAMMA
+// GENERA PROGRAMMA (VERSIONE SICURA)
 // ----------------------
 function generateProgram(input) {
   const days = input.days_per_week;
@@ -103,10 +121,10 @@ function generateProgram(input) {
   const sessions = split.map((sp, index) => {
     let dayExercises = filtered.filter(e => e.split === sp);
 
-    // fallback SOLO coerenti con lo split
+    // fallback coerenti
     if (dayExercises.length === 0) {
       if (sp === "LOWER" || sp === "LEGS") {
-        dayExercises = filtered.filter(e => e.muscle_group === "gambe" || e.muscle_group === "posteriori");
+        dayExercises = filtered.filter(e => ["gambe", "posteriori", "polpacci"].includes(e.muscle_group));
       }
       if (sp === "UPPER") {
         dayExercises = filtered.filter(e => ["petto", "dorso", "spalle", "bicipiti", "tricipiti"].includes(e.muscle_group));
@@ -119,27 +137,25 @@ function generateProgram(input) {
       }
     }
 
-    // fallback finale: FULL BODY
+    // fallback FULL BODY
     if (dayExercises.length === 0) {
       dayExercises = filtered.filter(e => e.split === "FULL");
     }
 
+    // fallback finale: tutto il DB
+    if (dayExercises.length === 0) {
+      dayExercises = [...exercises];
+    }
+
     // scegli 5 esercizi base
-    let chosen = pickRandom(dayExercises, 5).map(ex => ({
+    let chosen = safePickRandom(dayExercises, 5).map(ex => ({
       name: ex.name,
       sets: 3,
       reps: "8-12"
     }));
 
-    // se meno di 5, duplica con valori validi
-    while (chosen.length < 5) {
-      const base = dayExercises[Math.floor(Math.random() * dayExercises.length)];
-      chosen.push({
-        name: base.name,
-        sets: 3,
-        reps: "10-15"
-      });
-    }
+    // duplica se meno di 5
+    chosen = safeDuplicate(chosen, 5);
 
     // DIMAGRIMENTO → aggiungi cardio
     if (input.goal === "fat_loss") {
@@ -147,7 +163,7 @@ function generateProgram(input) {
 
       if (cardio.length > 0) {
         const treadmill = cardio.find(e => e.name.toLowerCase().includes("tapis"));
-        const cardioExercise = treadmill || pickRandom(cardio, 1)[0];
+        const cardioExercise = treadmill || safePickRandom(cardio, 1)[0];
 
         chosen.push({
           name: cardioExercise.name,
@@ -166,7 +182,7 @@ function generateProgram(input) {
         const core = filtered.filter(e => e.muscle_group === "addome");
         if (core.length > 0) {
           chosen.push({
-            name: pickRandom(core, 1)[0].name,
+            name: safePickRandom(core, 1)[0].name,
             sets: 3,
             reps: "15-20"
           });
@@ -190,16 +206,21 @@ function generateProgram(input) {
 // ENDPOINT
 // ----------------------
 app.post("/generate-workout-plan", (req, res) => {
-  const input = req.body;
-  const sessions = generateProgram(input);
+  try {
+    const input = req.body;
+    const sessions = generateProgram(input);
 
-  res.json({
-    user: input.name,
-    goal: input.goal,
-    level: input.experience,
-    days: input.days_per_week,
-    sessions
-  });
+    res.json({
+      user: input.name,
+      goal: input.goal,
+      level: input.experience,
+      days: input.days_per_week,
+      sessions
+    });
+  } catch (err) {
+    console.error("ERRORE BACKEND:", err);
+    res.status(500).json({ error: "Errore nella generazione della scheda" });
+  }
 });
 
 // ----------------------
