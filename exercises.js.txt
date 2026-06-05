@@ -1,0 +1,110 @@
+export const exercises = [
+  // PETTO
+  { id: 1, name: "Panca piana bilanciere", muscle: "petto", pattern: "spinta_orizzontale", equipment: "bilanciere", level: "intermedio" },
+  { id: 2, name: "Panca inclinata bilanciere", muscle: "petto", pattern: "spinta_orizzontale", equipment: "bilanciere", level: "intermedio" },
+  { id: 3, name: "Panca declinata bilanciere", muscle: "petto", pattern: "spinta_orizzontale", equipment: "bilanciere", level: "avanzato" },
+  { id: 4, name: "Panca piana manubri", muscle: "petto", pattern: "spinta_orizzontale", equipment: "manubri", level: "principiante" },
+  { id: 5, name: "Panca inclinata manubri", muscle: "petto", pattern: "spinta_orizzontale", equipment: "manubri", level: "principiante" },
+  { id: 6, name: "Chest press", muscle: "petto", pattern: "spinta_orizzontale", equipment: "macchina", level: "principiante" },
+  { id: 7, name: "Croci manubri", muscle: "petto", pattern: "isolamento", equipment: "manubri", level: "principiante" },
+  { id: 8, name: "Croci ai cavi alti", muscle: "petto", pattern: "isolamento", equipment: "cavi", level: "intermedio" },
+  { id: 9, name: "Croci ai cavi bassi", muscle: "petto", pattern: "isolamento", equipment: "cavi", level: "intermedio" },
+  { id: 10, name: "Dips alle parallele", muscle: "petto", pattern: "spinta_verticale", equipment: "corpo_libero", level: "avanzato" },
+
+  // SCHIENA
+  { id: 11, name: "Lat machine", muscle: "schiena", pattern: "trazione_verticale", equipment: "macchina", level: "principiante" },
+  { id: 12, name: "Trazioni", muscle: "schiena", pattern: "trazione_verticale", equipment: "corpo_libero", level: "avanzato" },
+  { id: 13, name: "Rematore bilanciere", muscle: "schiena", pattern: "trazione_orizzontale", equipment: "bilanciere", level: "intermedio" },
+  { id: 14, name: "Rematore manubrio", muscle: "schiena", pattern: "trazione_orizzontale", equipment: "manubri", level: "principiante" },
+  { id: 15, name: "Rematore ai cavi", muscle: "schiena", pattern: "trazione_orizzontale", equipment: "cavi", level: "principiante" },
+  { id: 16, name: "Pulldown presa stretta", muscle: "schiena", pattern: "trazione_verticale", equipment: "macchina", level: "principiante" },
+  { id: 17, name: "Pullover ai cavi", muscle: "schiena", pattern: "isolamento", equipment: "cavi", level: "intermedio" },
+  { id: 18, name: "T-bar row", muscle: "schiena", pattern: "trazione_orizzontale", equipment: "bilanciere", level: "intermedio" },
+  { id: 19, name: "Iperestensioni", muscle: "schiena", pattern: "estensione", equipment: "corpo_libero", level: "principiante" },
+  { id: 20, name: "Deadlift", muscle: "schiena", pattern: "completo", equipment: "bilanciere", level: "avanzato" },
+
+  // SPALLE
+  { id: 21, name: "Military press bilanciere", muscle: "spalle", pattern: "spinta_verticale", equipment: "bilanciere", level: "intermedio" },
+  { id: 22, name: "Military press manubri", muscle: "spalle", pattern: "spinta_verticale", equipment: "manubri", level: "principiante" },
+  { id: 23, name: "Shoulder press machine", muscle: "spalle", pattern: "spinta_verticale", equipment: "macchina", level: "principiante" },
+  { id: 24, name: "Alzate laterali", muscle: "spalle", pattern: "isolamento", equipment: "manubri", level: "principiante" },
+  { id: 25, name: "Alzate frontali", muscle: "spalle", pattern: "isolamento", equipment: "manubri", level: "principiante" },
+  { id: 26, name: "Alzate posteriori", muscle: "spalle", pattern: "isolamento", equipment: "manubri", level: "principiante" },
+  { id: 27, name: "Face pull", muscle: "spalle", pattern: "trazione_orizzontale", equipment: "cavi", level: "intermedio" },
+  { id: 28, name: "Arnold press", muscle: "spalle", pattern: "spinta_verticale", equipment: "manubri", level: "intermedio" },
+  { id: 29, name: "Shrug manubri", muscle: "spalle", pattern: "isolamento", equipment: "manubri", level: "principiante" },
+  { id: 30, name: "Shrug bilanciere", muscle: "spalle", pattern: "isolamento", equipment: "bilanciere", level: "intermedio" },
+
+  // GAMBE
+  { id: 31, name: "Squat bilanciere", muscle: "gambe", pattern: "spinta_verticale", equipment: "bilanciere", level: "intermedio" },
+  { id: 32, name: "Front squat", muscle: "gambe", pattern: "spinta_verticale", equipment: "bilanciere", level: "avanzato" },
+  { id: 33, name: "Leg press", muscle: "gambe", pattern: "spinta_verticale", equipment: "macchina", level: "principiante" },
+  { id: 34, name: "Affondi manubri", muscle: "gambe", pattern: "spinta_verticale", equipment: "manubri", level: "principiante" },
+  { id: 35, name: "Affondi bilanciere", muscle: "gambe", pattern: "spinta_verticale", equipment: "bilanciere", level: "intermedio" },
+  { id: 36, name: "Stacchi rumeni", muscle: "gambe", pattern: "trazione_verticale", equipment: "bilanciere", level: "intermedio" },
+  { id: 37, name: "Leg curl sdraiato", muscle: "gambe", pattern: "isolamento", equipment: "macchina", level: "principiante" },
+  { id: 38, name: "Leg extension", muscle: "gambe", pattern: "isolamento", equipment: "macchina", level: "principiante" },
+  { id: 39, name: "Calf raise in piedi", muscle: "polpacci", pattern: "isolamento", equipment: "macchina", level: "principiante" },
+  { id: 40, name: "Calf raise seduto", muscle: "polpacci", pattern: "isolamento", equipment: "macchina", level: "principiante" },
+
+  // BICIPITI
+  { id: 41, name: "Curl bilanciere", muscle: "bicipiti", pattern: "flessione_gomito", equipment: "bilanciere", level: "principiante" },
+  { id: 42, name: "Curl manubri", muscle: "bicipiti", pattern: "flessione_gomito", equipment: "manubri", level: "principiante" },
+  { id: 43, name: "Curl alternato", muscle: "bicipiti", pattern: "flessione_gomito", equipment: "manubri", level: "principiante" },
+  { id: 44, name: "Curl ai cavi", muscle: "bicipiti", pattern: "flessione_gomito", equipment: "cavi", level: "intermedio" },
+  { id: 45, name: "Hammer curl", muscle: "bicipiti", pattern: "flessione_gomito", equipment: "manubri", level: "principiante" },
+  { id: 46, name: "Curl concentrato", muscle: "bicipiti", pattern: "flessione_gomito", equipment: "manubri", level: "principiante" },
+  { id: 47, name: "Curl panca Scott", muscle: "bicipiti", pattern: "flessione_gomito", equipment: "macchina", level: "intermedio" },
+  { id: 48, name: "Spider curl", muscle: "bicipiti", pattern: "flessione_gomito", equipment: "bilanciere", level: "intermedio" },
+  { id: 49, name: "Curl presa inversa", muscle: "bicipiti", pattern: "flessione_gomito", equipment: "bilanciere", level: "intermedio" },
+  { id: 50, name: "Cable hammer curl", muscle: "bicipiti", pattern: "flessione_gomito", equipment: "cavi", level: "intermedio" },
+
+  // TRICIPITI
+  { id: 51, name: "Pushdown ai cavi", muscle: "tricipiti", pattern: "estensione_gomito", equipment: "cavi", level: "principiante" },
+  { id: 52, name: "French press bilanciere", muscle: "tricipiti", pattern: "estensione_gomito", equipment: "bilanciere", level: "intermedio" },
+  { id: 53, name: "French press manubri", muscle: "tricipiti", pattern: "estensione_gomito", equipment: "manubri", level: "principiante" },
+  { id: 54, name: "Estensioni sopra la testa", muscle: "tricipiti", pattern: "estensione_gomito", equipment: "manubri", level: "principiante" },
+  { id: 55, name: "Dips tricipiti", muscle: "tricipiti", pattern: "spinta_verticale", equipment: "corpo_libero", level: "intermedio" },
+  { id: 56, name: "Kickback manubri", muscle: "tricipiti", pattern: "estensione_gomito", equipment: "manubri", level: "principiante" },
+  { id: 57, name: "Pushdown corda", muscle: "tricipiti", pattern: "estensione_gomito", equipment: "cavi", level: "principiante" },
+  { id: 58, name: "Close grip bench press", muscle: "tricipiti", pattern: "spinta_orizzontale", equipment: "bilanciere", level: "intermedio" },
+  { id: 59, name: "Estensioni ai cavi", muscle: "tricipiti", pattern: "estensione_gomito", equipment: "cavi", level: "principiante" },
+  { id: 60, name: "Skull crusher", muscle: "tricipiti", pattern: "estensione_gomito", equipment: "bilanciere", level: "intermedio" },
+
+  // ADDOME
+  { id: 61, name: "Crunch", muscle: "addome", pattern: "flessione_colonna", equipment: "corpo_libero", level: "principiante" },
+  { id: 62, name: "Crunch macchina", muscle: "addome", pattern: "flessione_colonna", equipment: "macchina", level: "principiante" },
+  { id: 63, name: "Leg raise", muscle: "addome", pattern: "flessione_anca", equipment: "corpo_libero", level: "intermedio" },
+  { id: 64, name: "Plank", muscle: "addome", pattern: "isometria", equipment: "corpo_libero", level: "principiante" },
+  { id: 65, name: "Side plank", muscle: "addome", pattern: "isometria", equipment: "corpo_libero", level: "principiante" },
+  { id: 66, name: "Russian twist", muscle: "addome", pattern: "rotazione", equipment: "manubri", level: "principiante" },
+  { id: 67, name: "Cable crunch", muscle: "addome", pattern: "flessione_colonna", equipment: "cavi", level: "intermedio" },
+  { id: 68, name: "Mountain climber", muscle: "addome", pattern: "cardio", equipment: "corpo_libero", level: "principiante" },
+  { id: 69, name: "Hanging knee raise", muscle: "addome", pattern: "flessione_anca", equipment: "corpo_libero", level: "intermedio" },
+  { id: 70, name: "V-up", muscle: "addome", pattern: "flessione_colonna", equipment: "corpo_libero", level: "avanzato" },
+
+  // GLUTEI
+  { id: 71, name: "Hip thrust bilanciere", muscle: "glutei", pattern: "estensione_anca", equipment: "bilanciere", level: "intermedio" },
+  { id: 72, name: "Glute bridge", muscle: "glutei", pattern: "estensione_anca", equipment: "corpo_libero", level: "principiante" },
+  { id: 73, name: "Abductor machine", muscle: "glutei", pattern: "abduzione", equipment: "macchina", level: "principiante" },
+  { id: 74, name: "Kickback ai cavi", muscle: "glutei", pattern: "estensione_anca", equipment: "cavi", level: "principiante" },
+  { id: 75, name: "Step-up manubri", muscle: "glutei", pattern: "spinta_verticale", equipment: "manubri", level: "principiante" },
+  { id: 76, name: "Bulgarian split squat", muscle: "glutei", pattern: "spinta_verticale", equipment: "manubri", level: "intermedio" },
+  { id: 77, name: "Sumo squat", muscle: "glutei", pattern: "spinta_verticale", equipment: "bilanciere", level: "intermedio" },
+  { id: 78, name: "Cable pull-through", muscle: "glutei", pattern: "trazione_verticale", equipment: "cavi", level: "intermedio" },
+  { id: 79, name: "Reverse lunge", muscle: "glutei", pattern: "spinta_verticale", equipment: "manubri", level: "principiante" },
+  { id: 80, name: "Frog pump", muscle: "glutei", pattern: "isolamento", equipment: "corpo_libero", level: "principiante" },
+
+  // AVAMBRACCI
+  { id: 81, name: "Wrist curl", muscle: "avambracci", pattern: "flessione_polso", equipment: "manubri", level: "principiante" },
+  { id: 82, name: "Reverse wrist curl", muscle: "avambracci", pattern: "estensione_polso", equipment: "manubri", level: "principiante" },
+  { id: 83, name: "Farmer walk", muscle: "avambracci", pattern: "presa", equipment: "manubri", level: "intermedio" },
+  { id: 84, name: "Pinch grip hold", muscle: "avambracci", pattern: "presa", equipment: "dischi", level: "intermedio" },
+  { id: 85, name: "Dead hang", muscle: "avambracci", pattern: "presa", equipment: "corpo_libero", level: "principiante" },
+
+  // FULL BODY / CARDIO
+  { id: 86, name: "Burpees", muscle: "full_body", pattern: "cardio", equipment: "corpo_libero", level: "intermedio" },
+  { id: 87, name: "Battle ropes", muscle: "full_body", pattern: "cardio", equipment: "macchina", level: "intermedio" },
+  { id: 88, name: "Kettlebell swing", muscle: "full_body", pattern: "trazione_verticale", equipment: "kettlebell", level: "intermedio" },
+  { id: 89, name: "Rowing machine", muscle: "full_body", pattern: "cardio", equipment: "macchina", level: "principiante" },
+  { id: 90, name: "Air bike", muscle: "full_body", pattern: "cardio", equipment: "
