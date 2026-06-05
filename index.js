@@ -5,37 +5,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ----------------------
-// DATABASE ESERCIZI
-// ----------------------
-const exercises = [
-  // UPPER
-  { name: "Panca piana bilanciere", muscle_group: "petto", split: "UPPER", level: "intermedio", equipment: "bilanciere" },
-  { name: "Panca inclinata manubri", muscle_group: "petto", split: "UPPER", level: "principiante", equipment: "manubri" },
-  { name: "Chest press macchina", muscle_group: "petto", split: "UPPER", level: "principiante", equipment: "macchina" },
-  { name: "Lat machine avanti", muscle_group: "dorso", split: "UPPER", level: "principiante", equipment: "macchina" },
-  { name: "Rematore manubrio", muscle_group: "dorso", split: "UPPER", level: "intermedio", equipment: "manubri" },
-  { name: "Alzate laterali manubri", muscle_group: "spalle", split: "UPPER", level: "principiante", equipment: "manubri" },
-
-  // LOWER
-  { name: "Leg press", muscle_group: "gambe", split: "LOWER", level: "principiante", equipment: "macchina" },
-  { name: "Affondi manubri", muscle_group: "gambe", split: "LOWER", level: "principiante", equipment: "manubri" },
-  { name: "Stacchi rumeni manubri", muscle_group: "posteriori", split: "LOWER", level: "intermedio", equipment: "manubri" },
-  { name: "Calf raise macchina", muscle_group: "polpacci", split: "LOWER", level: "principiante", equipment: "macchina" },
-
-  // FULL BODY
-  { name: "Push-up", muscle_group: "petto", split: "FULL", level: "principiante", equipment: "corpo_libero" },
-  { name: "Squat a corpo libero", muscle_group: "gambe", split: "FULL", level: "principiante", equipment: "corpo_libero" },
-  { name: "Plank", muscle_group: "addome", split: "FULL", level: "principiante", equipment: "corpo_libero" },
-  { name: "Crunch", muscle_group: "addome", split: "FULL", level: "principiante", equipment: "corpo_libero" },
-
-  // CARDIO
-  { name: "Tapis roulant (camminata veloce)", muscle_group: "cardio", split: "FULL", level: "principiante", equipment: "macchina" },
-  { name: "Cyclette", muscle_group: "cardio", split: "FULL", level: "principiante", equipment: "macchina" },
-  { name: "Ellittica", muscle_group: "cardio", split: "FULL", level: "principiante", equipment: "macchina" },
-  { name: "Jumping jacks", muscle_group: "cardio", split: "FULL", level: "principiante", equipment: "corpo_libero" },
-  { name: "Burpees", muscle_group: "cardio", split: "FULL", level: "intermedio", equipment: "corpo_libero" }
-];
+// IMPORTA IL TUO FILE CON I 200 ESERCIZI
+import exercises from "./exercises.js";
 
 // ----------------------
 // UTILS
@@ -98,20 +69,8 @@ function getSplitForDays(days) {
   return ["PUSH", "PULL", "LEGS", "UPPER", "LOWER", "FULL"];
 }
 
-function splitReadableName(split) {
-  const map = {
-    UPPER: "Upper Body",
-    LOWER: "Lower Body",
-    PUSH: "Push Day",
-    PULL: "Pull Day",
-    LEGS: "Leg Day",
-    FULL: "Full Body"
-  };
-  return map[split] || split;
-}
-
 // ----------------------
-// GENERA PROGRAMMA (VERSIONE SICURA)
+// GENERA PROGRAMMA (VERSIONE SICURA E PULITA)
 // ----------------------
 function generateProgram(input) {
   const days = input.days_per_week;
@@ -123,7 +82,7 @@ function generateProgram(input) {
 
     // fallback coerenti
     if (dayExercises.length === 0) {
-      if (sp === "LOWER" || sp === "LEGS") {
+      if (sp === "LEGS" || sp === "LOWER") {
         dayExercises = filtered.filter(e => ["gambe", "posteriori", "polpacci"].includes(e.muscle_group));
       }
       if (sp === "UPPER") {
@@ -193,8 +152,7 @@ function generateProgram(input) {
     }
 
     return {
-      name: `Day ${index + 1} - ${splitReadableName(sp)}`,
-      split: sp,
+      name: `Giorno ${index + 1}`,   // 👈 SOLO IL GIORNO, SENZA SPLIT
       exercises: chosen
     };
   });
