@@ -30,20 +30,16 @@ function ensureCount(baseArr, target) {
 // ----------------------
 function filterExercises(input) {
   return exercises.filter(ex => {
-    // livello
     if (input.experience === "beginner" && ex.level === "avanzato") return false;
 
-    // attrezzatura
     if (input.equipment === "home") {
       if (ex.equipment === "bilanciere" || ex.equipment === "macchina") return false;
     }
 
-    // preferenza
     if (input.exercise_pref && input.exercise_pref !== "tutto") {
       if (ex.equipment !== input.exercise_pref) return false;
     }
 
-    // infortuni
     const name = ex.name.toLowerCase();
     const inj = (input.injuries || "").toLowerCase();
 
@@ -74,25 +70,20 @@ function generateProgram(input) {
   for (let day = 1; day <= 3; day++) {
     const groups = DAY_GROUPS[day];
 
-    // prendi esercizi dei gruppi del giorno
     let dayExercises = filtered.filter(ex => groups.includes(ex.muscle_group));
 
-    // fallback se vuoto
     if (dayExercises.length === 0) {
       dayExercises = filtered.filter(ex => ex.muscle_group !== "cardio");
     }
 
-    // scegli 5 esercizi
     let chosen = pickRandom(dayExercises, 5).map(ex => ({
       name: ex.name,
       sets: 3,
       reps: "8-12"
     }));
 
-    // duplica se meno di 5
     chosen = ensureCount(chosen, 5);
 
-    // aggiungi addome se manca
     const hasCore = chosen.some(e =>
       e.name.toLowerCase().includes("crunch") ||
       e.name.toLowerCase().includes("plank")
@@ -109,7 +100,6 @@ function generateProgram(input) {
       }
     }
 
-    // aggiungi cardio se dimagrimento
     if (input.goal === "fat_loss") {
       const cardio = filtered.filter(e => e.muscle_group === "cardio");
       if (cardio.length > 0) {
@@ -121,7 +111,6 @@ function generateProgram(input) {
       }
     }
 
-    // massimo 6 esercizi
     chosen = chosen.slice(0, 6);
 
     sessions.push({
@@ -157,5 +146,5 @@ app.post("/generate-workout-plan", (req, res) => {
 // ----------------------
 // SERVER
 // ----------------------
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log("Backend attivo sulla porta " + PORT));
