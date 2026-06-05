@@ -1,12 +1,12 @@
-import express from "express";
-import cors from "cors";
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// IMPORTA IL TUO FILE CON I 200 ESERCIZI
-import exercises from "./exercises.js";
+// IMPORTA I 200 ESERCIZI
+const exercises = require("./exercises.js");
 
 // ----------------------
 // UTILS
@@ -70,7 +70,7 @@ function getSplitForDays(days) {
 }
 
 // ----------------------
-// GENERA PROGRAMMA (VERSIONE SICURA E PULITA)
+// GENERA PROGRAMMA (VERSIONE SICURA)
 // ----------------------
 function generateProgram(input) {
   const days = input.days_per_week;
@@ -152,7 +152,7 @@ function generateProgram(input) {
     }
 
     return {
-      name: `Giorno ${index + 1}`,   // 👈 SOLO IL GIORNO, SENZA SPLIT
+      name: `Giorno ${index + 1}`,   // 👈 SOLO IL GIORNO
       exercises: chosen
     };
   });
