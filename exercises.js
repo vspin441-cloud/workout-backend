@@ -105,4 +105,4 @@ const exercises = [
   { name: "Sprint sul Posto", muscle_group: "cardio", level: "intermedio", equipment: "corpo_libero" }
 ];
 
-export default 
+export default exercises;
