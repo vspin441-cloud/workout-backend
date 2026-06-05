@@ -1,0 +1,325 @@
+// exercises.js
+
+export const exercises = [
+  // PETTO
+  {
+    id: 1,
+    name: "Panca piana bilanciere",
+    muscle_group: "chest",
+    pattern: "push",
+    type: "compound",
+    equipment: ["barbell", "bench"],
+    level: "intermediate"
+  },
+  {
+    id: 2,
+    name: "Panca piana manubri",
+    muscle_group: "chest",
+    pattern: "push",
+    type: "compound",
+    equipment: ["dumbbells", "bench"],
+    level: "beginner"
+  },
+  {
+    id: 3,
+    name: "Panca inclinata manubri",
+    muscle_group: "chest",
+    pattern: "push",
+    type: "compound",
+    equipment: ["dumbbells", "bench"],
+    level: "intermediate"
+  },
+  {
+    id: 4,
+    name: "Chest press macchina",
+    muscle_group: "chest",
+    pattern: "push",
+    type: "compound",
+    equipment: ["machines"],
+    level: "beginner"
+  },
+  {
+    id: 5,
+    name: "Croci manubri panca piana",
+    muscle_group: "chest",
+    pattern: "push",
+    type: "isolation",
+    equipment: ["dumbbells", "bench"],
+    level: "beginner"
+  },
+  {
+    id: 6,
+    name: "Croci ai cavi",
+    muscle_group: "chest",
+    pattern: "push",
+    type: "isolation",
+    equipment: ["cables"],
+    level: "intermediate"
+  },
+
+  // SCHIENA
+  {
+    id: 10,
+    name: "Stacco da terra bilanciere",
+    muscle_group: "back",
+    pattern: "hinge",
+    type: "compound",
+    equipment: ["barbell"],
+    level: "advanced"
+  },
+  {
+    id: 11,
+    name: "Rematore bilanciere",
+    muscle_group: "back",
+    pattern: "pull",
+    type: "compound",
+    equipment: ["barbell"],
+    level: "intermediate"
+  },
+  {
+    id: 12,
+    name: "Rematore manubrio",
+    muscle_group: "back",
+    pattern: "pull",
+    type: "compound",
+    equipment: ["dumbbells"],
+    level: "beginner"
+  },
+  {
+    id: 13,
+    name: "Lat machine avanti",
+    muscle_group: "back",
+    pattern: "pull",
+    type: "compound",
+    equipment: ["machines"],
+    level: "beginner"
+  },
+  {
+    id: 14,
+    name: "Trazioni alla sbarra",
+    muscle_group: "back",
+    pattern: "pull",
+    type: "compound",
+    equipment: ["bodyweight", "bar"],
+    level: "intermediate"
+  },
+  {
+    id: 15,
+    name: "Pulldown ai cavi presa stretta",
+    muscle_group: "back",
+    pattern: "pull",
+    type: "compound",
+    equipment: ["cables"],
+    level: "beginner"
+  },
+
+  // SPALLE
+  {
+    id: 20,
+    name: "Military press bilanciere",
+    muscle_group: "shoulders",
+    pattern: "push",
+    type: "compound",
+    equipment: ["barbell"],
+    level: "intermediate"
+  },
+  {
+    id: 21,
+    name: "Lento avanti manubri",
+    muscle_group: "shoulders",
+    pattern: "push",
+    type: "compound",
+    equipment: ["dumbbells"],
+    level: "beginner"
+  },
+  {
+    id: 22,
+    name: "Alzate laterali manubri",
+    muscle_group: "shoulders",
+    pattern: "push",
+    type: "isolation",
+    equipment: ["dumbbells"],
+    level: "beginner"
+  },
+  {
+    id: 23,
+    name: "Alzate laterali ai cavi",
+    muscle_group: "shoulders",
+    pattern: "push",
+    type: "isolation",
+    equipment: ["cables"],
+    level: "intermediate"
+  },
+  {
+    id: 24,
+    name: "Face pull ai cavi",
+    muscle_group: "shoulders",
+    pattern: "pull",
+    type: "isolation",
+    equipment: ["cables"],
+    level: "intermediate"
+  },
+
+  // GAMBE (QUAD, FEMORALI, GLUTEI)
+  {
+    id: 30,
+    name: "Squat bilanciere",
+    muscle_group: "quadriceps",
+    pattern: "squat",
+    type: "compound",
+    equipment: ["barbell"],
+    level: "intermediate"
+  },
+  {
+    id: 31,
+    name: "Leg press",
+    muscle_group: "quadriceps",
+    pattern: "squat",
+    type: "compound",
+    equipment: ["machines"],
+    level: "beginner"
+  },
+  {
+    id: 32,
+    name: "Affondi manubri",
+    muscle_group: "quadriceps",
+    pattern: "lunge",
+    type: "compound",
+    equipment: ["dumbbells"],
+    level: "beginner"
+  },
+  {
+    id: 33,
+    name: "Stacco rumeno bilanciere",
+    muscle_group: "hamstrings",
+    pattern: "hinge",
+    type: "compound",
+    equipment: ["barbell"],
+    level: "intermediate"
+  },
+  {
+    id: 34,
+    name: "Leg curl macchina",
+    muscle_group: "hamstrings",
+    pattern: "hinge",
+    type: "isolation",
+    equipment: ["machines"],
+    level: "beginner"
+  },
+  {
+    id: 35,
+    name: "Hip thrust bilanciere",
+    muscle_group: "glutes",
+    pattern: "hinge",
+    type: "compound",
+    equipment: ["barbell", "bench"],
+    level: "intermediate"
+  },
+
+  // BICIPITI
+  {
+    id: 40,
+    name: "Curl bilanciere",
+    muscle_group: "biceps",
+    pattern: "pull",
+    type: "isolation",
+    equipment: ["barbell"],
+    level: "beginner"
+  },
+  {
+    id: 41,
+    name: "Curl manubri in piedi",
+    muscle_group: "biceps",
+    pattern: "pull",
+    type: "isolation",
+    equipment: ["dumbbells"],
+    level: "beginner"
+  },
+  {
+    id: 42,
+    name: "Curl ai cavi",
+    muscle_group: "biceps",
+    pattern: "pull",
+    type: "isolation",
+    equipment: ["cables"],
+    level: "intermediate"
+  },
+
+  // TRICIPITI
+  {
+    id: 50,
+    name: "Panca stretta bilanciere",
+    muscle_group: "triceps",
+    pattern: "push",
+    type: "compound",
+    equipment: ["barbell", "bench"],
+    level: "intermediate"
+  },
+  {
+    id: 51,
+    name: "French press manubri",
+    muscle_group: "triceps",
+    pattern: "push",
+    type: "isolation",
+    equipment: ["dumbbells"],
+    level: "beginner"
+  },
+  {
+    id: 52,
+    name: "Pushdown ai cavi",
+    muscle_group: "triceps",
+    pattern: "push",
+    type: "isolation",
+    equipment: ["cables"],
+    level: "beginner"
+  },
+
+  // CORE
+  {
+    id: 60,
+    name: "Plank",
+    muscle_group: "core",
+    pattern: "core",
+    type: "isolation",
+    equipment: ["bodyweight"],
+    level: "beginner"
+  },
+  {
+    id: 61,
+    name: "Crunch a terra",
+    muscle_group: "core",
+    pattern: "core",
+    type: "isolation",
+    equipment: ["bodyweight"],
+    level: "beginner"
+  },
+  {
+    id: 62,
+    name: "Crunch alla macchina",
+    muscle_group: "core",
+    pattern: "core",
+    type: "isolation",
+    equipment: ["machines"],
+    level: "beginner"
+  },
+
+  // POLPACCI
+  {
+    id: 70,
+    name: "Calf raise in piedi",
+    muscle_group: "calves",
+    pattern: "hinge",
+    type: "isolation",
+    equipment: ["bodyweight", "dumbbells"],
+    level: "beginner"
+  },
+  {
+    id: 71,
+    name: "Calf raise alla macchina",
+    muscle_group: "calves",
+    pattern: "hinge",
+    type: "isolation",
+    equipment: ["machines"],
+    level: "beginner"
+  }
+];
