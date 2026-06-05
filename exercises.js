@@ -107,4 +107,15 @@ export const exercises = [
   { id: 87, name: "Battle ropes", muscle: "full_body", pattern: "cardio", equipment: "macchina", level: "intermedio" },
   { id: 88, name: "Kettlebell swing", muscle: "full_body", pattern: "trazione_verticale", equipment: "kettlebell", level: "intermedio" },
   { id: 89, name: "Rowing machine", muscle: "full_body", pattern: "cardio", equipment: "macchina", level: "principiante" },
-{ id: 90, name: "Air bike", muscle: "full_body", pattern: "cardio", equipment: "macchina", level: "principiante" },
+  { id: 90, name: "Air bike", muscle: "full_body", pattern: "cardio", equipment: "macchina", level: "principiante" },
+  { id: 91, name: "Face pull ai cavi", muscle: "spalle", pattern: "trazione_orizzontale", equipment: "cavi", level: "intermedio" },
+  { id: 92, name: "Reverse fly manubri", muscle: "spalle", pattern: "isolamento", equipment: "manubri", level: "principiante" },
+  { id: 93, name: "Alzate laterali ai cavi", muscle: "spalle", pattern: "isolamento", equipment: "cavi", level: "intermedio" },
+  { id: 94, name: "Pike push-up", muscle: "spalle", pattern: "spinta_verticale", equipment: "corpo_libero", level: "intermedio" },
+  { id: 95, name: "Handstand push-up", muscle: "spalle", pattern: "spinta_verticale", equipment: "corpo_libero", level: "avanzato" },
+  { id: 96, name: "Sled push", muscle: "full_body", pattern: "spinta_orizzontale", equipment: "macchina", level: "intermedio" },
+  { id: 97, name: "Sled pull", muscle: "full_body", pattern: "trazione_orizzontale", equipment: "macchina", level: "intermedio" },
+  { id: 98, name: "Box jump", muscle: "gambe", pattern: "esplosivo", equipment: "corpo_libero", level: "intermedio" },
+  { id: 99, name: "Jump squat", muscle: "gambe", pattern: "esplosivo", equipment: "corpo_libero", level: "principiante" },
+  { id: 100, name: "Bear crawl", muscle: "full_body", pattern: "stabilizzazione", equipment: "corpo_libero", level: "principiante" }
+];
