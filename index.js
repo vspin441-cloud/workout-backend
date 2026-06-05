@@ -1,12 +1,10 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
+import exercises from "./exercises.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-// IMPORTA I 200 ESERCIZI
-const exercises = require("./exercises.js");
 
 // ----------------------
 // UTILS
@@ -36,20 +34,16 @@ function safeDuplicate(baseArr, targetCount) {
 
 function filterExercises(input) {
   return exercises.filter(ex => {
-    // livello
     if (input.experience === "beginner" && ex.level === "avanzato") return false;
 
-    // attrezzatura
     if (input.equipment === "home") {
       if (ex.equipment === "bilanciere" || ex.equipment === "macchina") return false;
     }
 
-    // preferenza
     if (input.exercise_pref !== "" && input.exercise_pref !== "tutto") {
       if (ex.equipment !== input.exercise_pref) return false;
     }
 
-    // infortuni
     const name = ex.name.toLowerCase();
     const inj = (input.injuries || "").toLowerCase();
 
@@ -70,7 +64,7 @@ function getSplitForDays(days) {
 }
 
 // ----------------------
-// GENERA PROGRAMMA (VERSIONE SICURA)
+// GENERA PROGRAMMA
 // ----------------------
 function generateProgram(input) {
   const days = input.days_per_week;
@@ -80,7 +74,6 @@ function generateProgram(input) {
   const sessions = split.map((sp, index) => {
     let dayExercises = filtered.filter(e => e.split === sp);
 
-    // fallback coerenti
     if (dayExercises.length === 0) {
       if (sp === "LEGS" || sp === "LOWER") {
         dayExercises = filtered.filter(e => ["gambe", "posteriori", "polpacci"].includes(e.muscle_group));
@@ -96,27 +89,22 @@ function generateProgram(input) {
       }
     }
 
-    // fallback FULL BODY
     if (dayExercises.length === 0) {
       dayExercises = filtered.filter(e => e.split === "FULL");
     }
 
-    // fallback finale: tutto il DB
     if (dayExercises.length === 0) {
       dayExercises = [...exercises];
     }
 
-    // scegli 5 esercizi base
     let chosen = safePickRandom(dayExercises, 5).map(ex => ({
       name: ex.name,
       sets: 3,
       reps: "8-12"
     }));
 
-    // duplica se meno di 5
     chosen = safeDuplicate(chosen, 5);
 
-    // DIMAGRIMENTO → aggiungi cardio
     if (input.goal === "fat_loss") {
       const cardio = filtered.filter(e => e.muscle_group === "cardio");
 
@@ -131,7 +119,6 @@ function generateProgram(input) {
         });
       }
 
-      // addome se manca
       const hasCore = chosen.some(e =>
         e.name.toLowerCase().includes("crunch") ||
         e.name.toLowerCase().includes("plank")
@@ -152,7 +139,7 @@ function generateProgram(input) {
     }
 
     return {
-      name: `Giorno ${index + 1}`,   // 👈 SOLO IL GIORNO
+      name: `Giorno ${index + 1}`,
       exercises: chosen
     };
   });
