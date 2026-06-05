@@ -107,4 +107,4 @@ export const exercises = [
   { id: 87, name: "Battle ropes", muscle: "full_body", pattern: "cardio", equipment: "macchina", level: "intermedio" },
   { id: 88, name: "Kettlebell swing", muscle: "full_body", pattern: "trazione_verticale", equipment: "kettlebell", level: "intermedio" },
   { id: 89, name: "Rowing machine", muscle: "full_body", pattern: "cardio", equipment: "macchina", level: "principiante" },
-  { id: 90, name: "Air bike", muscle: "full_body", pattern: "cardio", equipment: "
+{ id: 90, name: "Air bike", muscle: "full_body", pattern: "cardio", equipment: "macchina", level: "principiante" },
