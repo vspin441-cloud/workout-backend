@@ -9,41 +9,41 @@ app.use(express.json());
 // ----------------------
 // UTILS
 // ----------------------
-function safePickRandom(arr, n) {
+function pickRandom(arr, n) {
   if (!arr || arr.length === 0) return [];
   const shuffled = [...arr].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, Math.min(n, shuffled.length));
 }
 
-function safeDuplicate(baseArr, targetCount) {
+function ensureCount(baseArr, target) {
   const result = [...baseArr];
-
-  while (result.length < targetCount) {
-    const base = baseArr[Math.floor(Math.random() * baseArr.length)];
-    if (!base) break;
-
-    result.push({
-      name: base.name,
-      sets: 3,
-      reps: "10-15"
-    });
+  while (result.length < target) {
+    const random = baseArr[Math.floor(Math.random() * baseArr.length)];
+    if (!random) break;
+    result.push({ name: random.name, sets: 3, reps: "10-15" });
   }
-
   return result;
 }
 
+// ----------------------
+// FILTRI
+// ----------------------
 function filterExercises(input) {
   return exercises.filter(ex => {
+    // livello
     if (input.experience === "beginner" && ex.level === "avanzato") return false;
 
+    // attrezzatura
     if (input.equipment === "home") {
       if (ex.equipment === "bilanciere" || ex.equipment === "macchina") return false;
     }
 
-    if (input.exercise_pref !== "" && input.exercise_pref !== "tutto") {
+    // preferenza
+    if (input.exercise_pref && input.exercise_pref !== "tutto") {
       if (ex.equipment !== input.exercise_pref) return false;
     }
 
+    // infortuni
     const name = ex.name.toLowerCase();
     const inj = (input.injuries || "").toLowerCase();
 
@@ -55,94 +55,80 @@ function filterExercises(input) {
   });
 }
 
-function getSplitForDays(days) {
-  if (days === 2) return ["FULL", "FULL"];
-  if (days === 3) return ["PUSH", "PULL", "LEGS"];
-  if (days === 4) return ["UPPER", "LOWER", "UPPER", "LOWER"];
-  if (days === 5) return ["PUSH", "PULL", "LEGS", "UPPER", "FULL"];
-  return ["PUSH", "PULL", "LEGS", "UPPER", "LOWER", "FULL"];
-}
+// ----------------------
+// GRUPPI MUSCOLARI PER GIORNO
+// ----------------------
+const DAY_GROUPS = {
+  1: ["petto", "spalle", "tricipiti"],
+  2: ["dorso", "bicipiti"],
+  3: ["gambe", "posteriori", "polpacci"]
+};
 
 // ----------------------
 // GENERA PROGRAMMA
 // ----------------------
 function generateProgram(input) {
-  const days = input.days_per_week;
-  const split = getSplitForDays(days);
   const filtered = filterExercises(input);
+  const sessions = [];
 
-  const sessions = split.map((sp, index) => {
-    let dayExercises = filtered.filter(e => e.split === sp);
+  for (let day = 1; day <= 3; day++) {
+    const groups = DAY_GROUPS[day];
 
+    // prendi esercizi dei gruppi del giorno
+    let dayExercises = filtered.filter(ex => groups.includes(ex.muscle_group));
+
+    // fallback se vuoto
     if (dayExercises.length === 0) {
-      if (sp === "LEGS" || sp === "LOWER") {
-        dayExercises = filtered.filter(e => ["gambe", "posteriori", "polpacci"].includes(e.muscle_group));
-      }
-      if (sp === "UPPER") {
-        dayExercises = filtered.filter(e => ["petto", "dorso", "spalle", "bicipiti", "tricipiti"].includes(e.muscle_group));
-      }
-      if (sp === "PUSH") {
-        dayExercises = filtered.filter(e => ["petto", "spalle", "tricipiti"].includes(e.muscle_group));
-      }
-      if (sp === "PULL") {
-        dayExercises = filtered.filter(e => ["dorso", "bicipiti"].includes(e.muscle_group));
-      }
+      dayExercises = filtered.filter(ex => ex.muscle_group !== "cardio");
     }
 
-    if (dayExercises.length === 0) {
-      dayExercises = filtered.filter(e => e.split === "FULL");
-    }
-
-    if (dayExercises.length === 0) {
-      dayExercises = [...exercises];
-    }
-
-    let chosen = safePickRandom(dayExercises, 5).map(ex => ({
+    // scegli 5 esercizi
+    let chosen = pickRandom(dayExercises, 5).map(ex => ({
       name: ex.name,
       sets: 3,
       reps: "8-12"
     }));
 
-    chosen = safeDuplicate(chosen, 5);
+    // duplica se meno di 5
+    chosen = ensureCount(chosen, 5);
 
+    // aggiungi addome se manca
+    const hasCore = chosen.some(e =>
+      e.name.toLowerCase().includes("crunch") ||
+      e.name.toLowerCase().includes("plank")
+    );
+
+    if (!hasCore) {
+      const core = filtered.filter(e => e.muscle_group === "addome");
+      if (core.length > 0) {
+        chosen.push({
+          name: pickRandom(core, 1)[0].name,
+          sets: 3,
+          reps: "15-20"
+        });
+      }
+    }
+
+    // aggiungi cardio se dimagrimento
     if (input.goal === "fat_loss") {
       const cardio = filtered.filter(e => e.muscle_group === "cardio");
-
       if (cardio.length > 0) {
-        const treadmill = cardio.find(e => e.name.toLowerCase().includes("tapis"));
-        const cardioExercise = treadmill || safePickRandom(cardio, 1)[0];
-
         chosen.push({
-          name: cardioExercise.name,
+          name: pickRandom(cardio, 1)[0].name,
           sets: 1,
           reps: "10-15 min"
         });
       }
-
-      const hasCore = chosen.some(e =>
-        e.name.toLowerCase().includes("crunch") ||
-        e.name.toLowerCase().includes("plank")
-      );
-
-      if (!hasCore) {
-        const core = filtered.filter(e => e.muscle_group === "addome");
-        if (core.length > 0) {
-          chosen.push({
-            name: safePickRandom(core, 1)[0].name,
-            sets: 3,
-            reps: "15-20"
-          });
-        }
-      }
-
-      chosen = chosen.slice(0, 6);
     }
 
-    return {
-      name: `Giorno ${index + 1}`,
+    // massimo 6 esercizi
+    chosen = chosen.slice(0, 6);
+
+    sessions.push({
+      name: `Giorno ${day}`,
       exercises: chosen
-    };
-  });
+    });
+  }
 
   return sessions;
 }
@@ -159,7 +145,7 @@ app.post("/generate-workout-plan", (req, res) => {
       user: input.name,
       goal: input.goal,
       level: input.experience,
-      days: input.days_per_week,
+      days: 3,
       sessions
     });
   } catch (err) {
