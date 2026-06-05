@@ -104,19 +104,24 @@ function generateProgram(input) {
   const sessions = split.map((sp, index) => {
     let dayExercises = filtered.filter(e => e.split === sp);
 
-    // SE NON CI SONO ESERCIZI → PRENDI FULL BODY
+    // fallback 1: usa FULL BODY
     if (dayExercises.length === 0) {
       dayExercises = filtered.filter(e => e.split === "FULL");
     }
 
-    // SE ANCORA VUOTO → PRENDI QUALSIASI ESERCIZIO
+    // fallback 2: usa tutto il database
     if (dayExercises.length === 0) {
       dayExercises = [...exercises];
     }
 
-    // ALMENO 5 ESERCIZI
-    let chosen = pickRandom(dayExercises, 5);
+    // scegli 5 esercizi base
+    let chosen = pickRandom(dayExercises, 5).map(ex => ({
+      name: ex.name,
+      sets: 3,
+      reps: "8-12"
+    }));
 
+    // se meno di 5, duplica con valori validi
     while (chosen.length < 5) {
       const base = dayExercises[Math.floor(Math.random() * dayExercises.length)];
       chosen.push({
@@ -126,18 +131,40 @@ function generateProgram(input) {
       });
     }
 
-    // DIMAGRIMENTO → AGGIUNGI CARDIO
+    // DIMAGRIMENTO → aggiungi cardio
     if (input.goal === "fat_loss") {
       const cardio = filtered.filter(e => e.muscle_group === "cardio");
 
       if (cardio.length > 0) {
         const treadmill = cardio.find(e => e.name.toLowerCase().includes("tapis"));
+        const cardioExercise = treadmill || pickRandom(cardio, 1)[0];
+
         chosen.push({
-          name: treadmill ? treadmill.name : pickRandom(cardio, 1)[0].name,
+          name: cardioExercise.name,
           sets: 1,
           reps: "10-15 min"
         });
       }
+
+      // addome se manca
+      const hasCore = chosen.some(e =>
+        e.name.toLowerCase().includes("crunch") ||
+        e.name.toLowerCase().includes("plank")
+      );
+
+      if (!hasCore) {
+        const core = filtered.filter(e => e.muscle_group === "addome");
+        if (core.length > 0) {
+          chosen.push({
+            name: pickRandom(core, 1)[0].name,
+            sets: 3,
+            reps: "15-20"
+          });
+        }
+      }
+
+      // massimo 6 esercizi
+      chosen = chosen.slice(0, 6);
     }
 
     return {
