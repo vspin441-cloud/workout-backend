@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import exercises from "./exercises.js";
+console.log("Esercizi caricati:", exercises.length);
 
 const app = express();
 app.use(cors());
