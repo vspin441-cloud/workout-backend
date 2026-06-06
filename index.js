@@ -6,18 +6,24 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Utility
 function pickRandom(arr, n) {
   if (!arr || arr.length === 0) return [];
   const shuffled = [...arr].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, Math.min(n, shuffled.length));
 }
 
+// Gruppi muscolari per giorno
 const DAY_GROUPS = {
   1: ["petto", "spalle", "tricipiti"],
   2: ["dorso", "bicipiti"],
-  3: ["gambe", "posteriori", "polpacci"]
+  3: ["gambe", "posteriori", "polpacci"],
+  4: ["petto", "tricipiti"],
+  5: ["dorso", "bicipiti"],
+  6: ["gambe", "addome"]
 };
 
+// Filtri
 function filterExercises(input) {
   return exercises.filter(ex => {
     if (input.experience === "beginner" && ex.level === "avanzato") return false;
@@ -26,19 +32,17 @@ function filterExercises(input) {
       if (ex.equipment === "bilanciere" || ex.equipment === "macchina") return false;
     }
 
-    if (input.exercise_pref && input.exercise_pref !== "tutto") {
-      if (ex.equipment !== input.exercise_pref) return false;
-    }
-
     return true;
   });
 }
 
+// Generatore
 function generateProgram(input) {
   const filtered = filterExercises(input);
+  const days = input.days_per_week || 3;
   const sessions = [];
 
-  for (let day = 1; day <= 3; day++) {
+  for (let day = 1; day <= days; day++) {
     const groups = DAY_GROUPS[day];
     let dayExercises = filtered.filter(ex => groups.includes(ex.muscle_group));
 
@@ -81,6 +85,7 @@ function generateProgram(input) {
   return sessions;
 }
 
+// Endpoint
 app.post("/generate-workout-plan", (req, res) => {
   try {
     const input = req.body;
@@ -90,7 +95,7 @@ app.post("/generate-workout-plan", (req, res) => {
       user: input.name,
       goal: input.goal,
       level: input.experience,
-      days: 3,
+      days: input.days_per_week,
       sessions
     });
   } catch (err) {
@@ -99,5 +104,6 @@ app.post("/generate-workout-plan", (req, res) => {
   }
 });
 
+// Server
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log("Backend attivo sulla porta " + PORT));
