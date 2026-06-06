@@ -1,34 +1,23 @@
 import express from "express";
 import cors from "cors";
 import exercises from "./exercises.js";
-console.log("Esercizi caricati:", exercises.length);
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ----------------------
-// UTILS
-// ----------------------
 function pickRandom(arr, n) {
   if (!arr || arr.length === 0) return [];
   const shuffled = [...arr].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, Math.min(n, shuffled.length));
 }
 
-function ensureCount(baseArr, target) {
-  const result = [...baseArr];
-  while (result.length < target) {
-    const random = baseArr[Math.floor(Math.random() * baseArr.length)];
-    if (!random) break;
-    result.push({ name: random.name, sets: 3, reps: "10-15" });
-  }
-  return result;
-}
+const DAY_GROUPS = {
+  1: ["petto", "spalle", "tricipiti"],
+  2: ["dorso", "bicipiti"],
+  3: ["gambe", "posteriori", "polpacci"]
+};
 
-// ----------------------
-// FILTRI
-// ----------------------
 function filterExercises(input) {
   return exercises.filter(ex => {
     if (input.experience === "beginner" && ex.level === "avanzato") return false;
@@ -41,36 +30,16 @@ function filterExercises(input) {
       if (ex.equipment !== input.exercise_pref) return false;
     }
 
-    const name = ex.name.toLowerCase();
-    const inj = (input.injuries || "").toLowerCase();
-
-    if (inj.includes("schiena") && ["stacchi", "deadlift"].some(w => name.includes(w))) return false;
-    if (inj.includes("spalla") && ["shoulder", "military"].some(w => name.includes(w))) return false;
-    if (inj.includes("ginocchio") && ["squat", "affondi", "leg press"].some(w => name.includes(w))) return false;
-
     return true;
   });
 }
 
-// ----------------------
-// GRUPPI MUSCOLARI PER GIORNO
-// ----------------------
-const DAY_GROUPS = {
-  1: ["petto", "spalle", "tricipiti"],
-  2: ["dorso", "bicipiti"],
-  3: ["gambe", "posteriori", "polpacci"]
-};
-
-// ----------------------
-// GENERA PROGRAMMA
-// ----------------------
 function generateProgram(input) {
   const filtered = filterExercises(input);
   const sessions = [];
 
   for (let day = 1; day <= 3; day++) {
     const groups = DAY_GROUPS[day];
-
     let dayExercises = filtered.filter(ex => groups.includes(ex.muscle_group));
 
     if (dayExercises.length === 0) {
@@ -83,22 +52,13 @@ function generateProgram(input) {
       reps: "8-12"
     }));
 
-    chosen = ensureCount(chosen, 5);
-
-    const hasCore = chosen.some(e =>
-      e.name.toLowerCase().includes("crunch") ||
-      e.name.toLowerCase().includes("plank")
-    );
-
-    if (!hasCore) {
-      const core = filtered.filter(e => e.muscle_group === "addome");
-      if (core.length > 0) {
-        chosen.push({
-          name: pickRandom(core, 1)[0].name,
-          sets: 3,
-          reps: "15-20"
-        });
-      }
+    const core = filtered.filter(e => e.muscle_group === "addome");
+    if (core.length > 0) {
+      chosen.push({
+        name: pickRandom(core, 1)[0].name,
+        sets: 3,
+        reps: "15-20"
+      });
     }
 
     if (input.goal === "fat_loss") {
@@ -112,8 +72,6 @@ function generateProgram(input) {
       }
     }
 
-    chosen = chosen.slice(0, 6);
-
     sessions.push({
       name: `Giorno ${day}`,
       exercises: chosen
@@ -123,9 +81,6 @@ function generateProgram(input) {
   return sessions;
 }
 
-// ----------------------
-// ENDPOINT
-// ----------------------
 app.post("/generate-workout-plan", (req, res) => {
   try {
     const input = req.body;
@@ -144,8 +99,5 @@ app.post("/generate-workout-plan", (req, res) => {
   }
 });
 
-// ----------------------
-// SERVER
-// ----------------------
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log("Backend attivo sulla porta " + PORT));
